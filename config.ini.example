@@ -1,0 +1,13 @@
+; IMAP connections benchmark configuration file
+
+; simulate emails per second per connection
+
+[main]
+emails_per_second = 1.5
+max_connections = 100
+
+[connection]
+host = imap.gmail.com
+port = 993
+username = anthony@pandecter.com
+password = mypassword
