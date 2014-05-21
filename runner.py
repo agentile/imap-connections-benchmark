@@ -1,9 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import ConfigParser, os
+import ConfigParser, os, getpass, imaplib
 from datetime import datetime
-import imaplib
 
 if __name__ == '__main__':
     print 'Running IMAP Connection Benchmark using Python'
@@ -26,18 +25,15 @@ if __name__ == '__main__':
     connections_made = 0
     connections_failed = 0
 
-    i = 0
-    while connections_made < max_connections:
-        connections[i] = imaplib.IMAP4(host, port)
+    while connections_made < int(max_connections):
+        mail = imaplib.IMAP4_SSL(host, int(port))
         try:
-            r, d = connections[i].login(username, password)
+            r, d = mail.login(username, password)
             assert r == 'OK', 'login failed'
+            connections.append(mail)
             connections_made += 1
         except imaplib.IMAP4.error:
             connections_failed += 1
-
-        i += 1
-
 
     # End Timer
     end = datetime.now()
