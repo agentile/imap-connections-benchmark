@@ -7,7 +7,7 @@ emails_per_second = 1.5
 max_connections = 100
 
 [connection]
-host = imap.gmail.com
+host = "imap.gmail.com"
 port = 993
-username = anthony@pandecter.com
-password = mypassword
+username = "anthony@followupboss.com"
+password = "mypassword"

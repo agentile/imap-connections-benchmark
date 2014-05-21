@@ -1,3 +1,3 @@
 #!/bin/bash
-php runner.php
-python runner.py
+time php runner.php
+time python runner.py
