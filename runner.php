@@ -12,12 +12,18 @@ $memory_usage = array();
 echo "Attemping {$config['max_connections']} connections..." . PHP_EOL;
 
 try {
-    while ($connections_made < $config['max_connections']) {
+    while (($connections_made + $connections_failed) < $config['max_connections']) {
         $host = "{{$config['host']}:{$config['port']}/imap/ssl}INBOX";
         $mem = memory_get_usage();
-        $connections[] = imap_open($host, $config['username'], $config['password']);
+        $connection = imap_open($host, $config['username'], $config['password']);
+        if ($connection) {
+            $connections[] = $connection;
+            $connections_made++;
+        } else {
+            $connections_failed++;
+        }
+
         $memory_usage[] = memory_get_usage() - $mem;
-        $connections_made++;
         echo '.';
     }
 } catch (Exception $e) {
