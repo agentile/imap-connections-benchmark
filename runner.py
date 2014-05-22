@@ -1,8 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import ConfigParser, os, imaplib, time
-
+import ConfigParser, os, sys, imaplib, time
 
 def current_milli_time():
     return int(round(time.time() * 1000))
@@ -44,13 +43,15 @@ if __name__ == '__main__':
     print "Attemping " + str(max_connections) + " connections..."
 
     connections = []
-    connections_attempted = 0
     connections_made = 0
     connections_failed = 0
     memory = []
     times = []
 
-    while connections_attempted < int(max_connections):
+    unbuffered_stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
+
+    while (connections_made + connections_failed) < int(max_connections):
+        unbuffered_stdout.write('.')
         open_time = current_milli_time()
         mem = memory_usage()
         mail = imaplib.IMAP4_SSL(host, int(port))
@@ -63,10 +64,11 @@ if __name__ == '__main__':
             connections_made += 1
         except imaplib.IMAP4.error:
             connections_failed += 1
-        connections_attempted += 1
 
     # End Timer
     end = current_milli_time()
+
+    print ""
 
     avg_memory_usage = "%.1f" % (sum(memory) / connections_made)
     time_per_connection = str(sum(times) / connections_made)

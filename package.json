@@ -1,0 +1,26 @@
+{
+  "name": "imap-connections-benchmark",
+  "version": "0.0.1",
+  "description": "IMAP connection test/benchmark",
+  "main": "runner.js",
+  "dependencies": {
+    "imap": "^0.8.10",
+    "iniparser": "^1.0.5",
+    "underscore": "^1.6.0",
+    "underscore.string": "^2.3.3",
+    "when": "^3.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/agentile/imap-connections-benchmark.git"
+  },
+  "author": "Kuno Woudt <kuno@followupboss.com>",
+  "bugs": {
+    "url": "https://github.com/agentile/imap-connections-benchmark/issues"
+  },
+  "homepage": "https://github.com/agentile/imap-connections-benchmark"
+}

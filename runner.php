@@ -13,14 +13,19 @@ $open_time = array();
 echo "Attemping {$config['max_connections']} connections..." . PHP_EOL;
 
 try {
-    while ($connections_made < $config['max_connections']) {
+    while (($connections_made + $connections_failed) < $config['max_connections']) {
         $host = "{{$config['host']}:{$config['port']}/imap/ssl}INBOX";
         $mem = memory_get_usage();
         $open_start = microtime(true);
-        $connections[] = imap_open($host, $config['username'], $config['password']);
-        $memory_usage[] = memory_get_usage() - $mem;
-        $open_time[] = microtime(true) - $open_start;
-        $connections_made++;
+        $connection = imap_open($host, $config['username'], $config['password']);
+        if ($connection) {
+            $connections[] = $connection;
+            $connections_made++;
+            $memory_usage[] = memory_get_usage() - $mem;
+            $open_time[] = microtime(true) - $open_start;
+        } else {
+            $connections_failed++;
+        }
         echo '.';
     }
 } catch (Exception $e) {
@@ -39,3 +44,4 @@ echo "Total of {$connections_made} IMAP Connections were made with average memor
 echo "Total of {$connections_failed} IMAP Connections failed!" . PHP_EOL;
 
 echo "Script completed in {$time} seconds" . PHP_EOL;
+
