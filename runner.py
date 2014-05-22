@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import ConfigParser, os, getpass, imaplib, time
+import ConfigParser, os, imaplib, time
 
 
 def current_milli_time():
@@ -27,7 +27,7 @@ def memory_usage():
     return result['rss']
 
 if __name__ == '__main__':
-    print 'Running IMAP Connection Benchmark using Python'
+    print 'Running IMAP Connection Benchmark using Python (imaplib)'
     # Start timer
 
     start = current_milli_time()

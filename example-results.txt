@@ -1,4 +1,4 @@
-Running IMAP Connection Benchmark using Python
+Running IMAP Connection Benchmark using Python (imaplib)
 Attemping 10 connections...
 Total of 10 IMAP Connections were made with average memory usage of 64.0kb per connection and average of 378 ms to open a connection!
 Total of 0 IMAP Connections failed!
