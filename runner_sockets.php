@@ -1,4 +1,5 @@
 <?php
+require 'GoogleIMAP.php';
 echo 'Running IMAP Connection Benchmark using PHP (Sockets)' . PHP_EOL;
 
 $time_start = microtime(true);
@@ -19,6 +20,7 @@ try {
         $open_start = microtime(true);
         $imap = new GoogleIMAP($config['username'], $config['password']);
         if ($imap->connect() && $imap->login()) {
+            //$imap->idle();
             $connections[] = $imap;
             $memory_usage[] = memory_get_usage() - $mem;
             $open_time[] = microtime(true) - $open_start;
@@ -44,81 +46,3 @@ echo "Total of {$connections_made} IMAP Connections were made with average memor
 echo "Total of {$connections_failed} IMAP Connections failed!" . PHP_EOL;
 
 echo "Script completed in {$time} seconds" . PHP_EOL;
-
-class GoogleIMAP {
-
-    protected $_username = null;
-    protected $_password = null;
-    protected $_id = null;
-    protected $_conn = null;
-
-    public function __construct($username, $password) {
-        $this->_username = $username;
-        $this->_password = $password;
-    }
-
-    public function __destruct() {
-        if ($this->_conn) {
-            fclose($this->_conn);
-        }
-    }
-
-    public function connect() {
-        $this->_id = uniqid();
-        $this->_conn = stream_socket_client("ssl://imap.gmail.com:993", $errno, $errstr, 5);
-        // set to non-blocking
-        stream_set_blocking($this->_conn, 0);
-        $response = $this->getResponse();
-        if (isset($response['info']) && strstr($response['info'], 'OK Gimap ready')) {
-            return true;
-        }
-        return false;
-    }
-
-    public function login() {
-        // outh "AUTHENTICATE XOAUTH {$loginstring\}";
-        $this->request("LOGIN {$this->_username} {$this->_password}");
-        $response = $this->getResponse();
-        if (isset($response['result']) && strstr($response['result'], '(Success)')) {
-            return true;
-        }
-        return false;
-    }
-
-    public function request($cmd) {
-        $command = "{$this->_id} {$cmd}\r\n";
-        fwrite($this->_conn, $command);
-    }
-
-    public function getResponse() {
-        if (!$this->_conn) {
-            return array();
-        }
-
-        $ret = '';
-        $arr = array();
-
-        while (!feof($this->_conn)) {
-            $char = fgetc($this->_conn);
-            if ($ret && $char === false) {
-                break;
-            }
-            $ret .= $char;
-        }
-
-        $lines = explode("\n", trim($ret));
-
-        foreach ($lines as $line) {
-            if (strpos($line, $this->_id) === 0) {
-                $arr['result'] = trim($line);
-            } else if (strpos($line, '*') === 0) {
-                $arr['info'] = trim($line);
-            } else {
-                $arr['other'] = trim($line);
-            }
-        }
-
-        return $arr;
-    }
-}
-
