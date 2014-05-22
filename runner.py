@@ -48,10 +48,9 @@ if __name__ == '__main__':
     memory = []
     times = []
 
-    unbuffered_stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
-
     while (connections_made + connections_failed) < int(max_connections):
-        unbuffered_stdout.write('.')
+        sys.stdout.write(".")
+        sys.stdout.flush()
         open_time = current_milli_time()
         mem = memory_usage()
         mail = imaplib.IMAP4_SSL(host, int(port))

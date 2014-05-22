@@ -1,19 +1,33 @@
 Running IMAP Connection Benchmark using Python (imaplib)
 Attemping 10 connections...
-Total of 10 IMAP Connections were made with average memory usage of 64.0kb per connection and average of 378 ms to open a connection!
+..........
+Total of 10 IMAP Connections were made with average memory usage of 64.0kb per connection and average of 438 ms to open a connection!
 Total of 0 IMAP Connections failed!
-Script completed in 3.0 seconds
-
+Script completed in 4.0 seconds
+wait a few seconds to avoid the next test hitting rate limits from the previous one ...
+[                ]
+[================
 Running IMAP Connection Benchmark using PHP (Sockets)
 Attemping 10 connections...
 ..........
-Total of 10 IMAP Connections were made with average memory usage of 9.06kb per connection and average of 450 ms to open a connection!
+Total of 10 IMAP Connections were made with average memory usage of 9.06kb per connection and average of 330 ms to open a connection!
 Total of 0 IMAP Connections failed!
-Script completed in 4.5419049263 seconds
-
+Script completed in 3.3305630683899 seconds
+wait a few seconds to avoid the next test hitting rate limits from the previous one ...
+[                ]
+[================
 Running IMAP Connection Benchmark using PHP (IMAP Extension)
 Attemping 10 connections...
 ..........
-Total of 10 IMAP Connections were made with average memory usage of 0.34kb per connection and average of 580 ms to open a connection!
+Total of 10 IMAP Connections were made with average memory usage of 0.34kb per connection and average of 610 ms to open a connection!
 Total of 0 IMAP Connections failed!
-Script completed in 5.7730050086975 seconds
+Script completed in 6.1157858371735 seconds
+wait a few seconds to avoid the next test hitting rate limits from the previous one ...
+[                ]
+[================
+Running IMAP Connection Benchmark using node.js
+Attemping 10 connections...
+..........
+Total of 10 IMAP Connections were made with average memory usage of 464.4kb per connection!
+Total of 0 IMAP Connections failed!
+Script completed in 7 seconds
