@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import os
+import sys
 import ConfigParser, os, getpass, imaplib
 from datetime import datetime
 
@@ -45,7 +47,10 @@ if __name__ == '__main__':
     connections_failed = 0
     memory = []
 
-    while connections_made < int(max_connections):
+    unbuffered_stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
+
+    while (connections_made + connections_failed) < int(max_connections):
+        unbuffered_stdout.write('.')
         mem = memory_usage()
         mail = imaplib.IMAP4_SSL(host, int(port))
         try:
@@ -59,6 +64,8 @@ if __name__ == '__main__':
 
     # End Timer
     end = datetime.now()
+
+    print ""
 
     avg_memory_usage = sum(memory) / connections_made
     print "Total of " + str(connections_made) + " IMAP Connections were made with average memory usage of " + str(avg_memory_usage) + "kb per connection!"
