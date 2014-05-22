@@ -1,10 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import os
-import sys
-import ConfigParser, os, getpass, imaplib
-from datetime import datetime
+import ConfigParser, os, sys, imaplib, time
+
+def current_milli_time():
+    return int(round(time.time() * 1000))
 
 # http://stackoverflow.com/questions/897941/python-equivalent-of-phps-memory-get-usage
 def memory_usage():
@@ -26,10 +26,10 @@ def memory_usage():
     return result['rss']
 
 if __name__ == '__main__':
-    print 'Running IMAP Connection Benchmark using Python'
+    print 'Running IMAP Connection Benchmark using Python (imaplib)'
     # Start timer
 
-    start = datetime.now()
+    start = current_milli_time()
     config = ConfigParser.ConfigParser()
     config.readfp(open('config.ini'))
 
@@ -46,16 +46,19 @@ if __name__ == '__main__':
     connections_made = 0
     connections_failed = 0
     memory = []
+    times = []
 
     unbuffered_stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
 
     while (connections_made + connections_failed) < int(max_connections):
         unbuffered_stdout.write('.')
+        open_time = current_milli_time()
         mem = memory_usage()
         mail = imaplib.IMAP4_SSL(host, int(port))
         try:
             r, d = mail.login(username, password)
             memory.append(memory_usage() - mem)
+            times.append(current_milli_time() - open_time)
             assert r == 'OK', 'login failed'
             connections.append(mail)
             connections_made += 1
@@ -63,12 +66,13 @@ if __name__ == '__main__':
             connections_failed += 1
 
     # End Timer
-    end = datetime.now()
+    end = current_milli_time()
 
     print ""
 
-    avg_memory_usage = sum(memory) / connections_made
-    print "Total of " + str(connections_made) + " IMAP Connections were made with average memory usage of " + str(avg_memory_usage) + "kb per connection!"
+    avg_memory_usage = "%.1f" % (sum(memory) / connections_made)
+    time_per_connection = str(sum(times) / connections_made)
+    print "Total of " + str(connections_made) + " IMAP Connections were made with average memory usage of " + avg_memory_usage + "kb per connection and average of " + time_per_connection + " ms to open a connection!"
     print "Total of " + str(connections_failed) + " IMAP Connections failed!"
 
-    print 'Script completed in ' + str(end - start) + ' seconds'
+    print 'Script completed in ' + str(round((end - start) / 1000, 2)) + ' seconds'

@@ -11,8 +11,10 @@ function relax {
     echo ""
 }
 
-time php runner.php
-relax
 time python runner.py
+relax
+time php runner_sockets.php
+relax
+time php runner.php
 relax
 time node runner.js

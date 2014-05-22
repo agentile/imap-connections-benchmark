@@ -1,20 +1,19 @@
-Running IMAP Connection Benchmark using PHP
+Running IMAP Connection Benchmark using Python (imaplib)
+Attemping 10 connections...
+Total of 10 IMAP Connections were made with average memory usage of 64.0kb per connection and average of 378 ms to open a connection!
+Total of 0 IMAP Connections failed!
+Script completed in 3.0 seconds
+
+Running IMAP Connection Benchmark using PHP (Sockets)
 Attemping 10 connections...
 ..........
-Total of 10 IMAP Connections were made with average memory usage of 330.4b per connection!
+Total of 10 IMAP Connections were made with average memory usage of 9.06kb per connection and average of 450 ms to open a connection!
 Total of 0 IMAP Connections failed!
-Script completed in 8.8843281269073 seconds
+Script completed in 4.5419049263 seconds
 
-real    0m9.418s
-user    0m0.096s
-sys     0m0.076s
-
-Running IMAP Connection Benchmark using Python
+Running IMAP Connection Benchmark using PHP (IMAP Extension)
 Attemping 10 connections...
-Total of 10 IMAP Connections were made with average memory usage of 78kb per connection!
+..........
+Total of 10 IMAP Connections were made with average memory usage of 0.34kb per connection and average of 580 ms to open a connection!
 Total of 0 IMAP Connections failed!
-Script completed in 0:00:07.955259 seconds
-
-real    0m8.002s
-user    0m0.088s
-sys     0m0.052s
+Script completed in 5.7730050086975 seconds
